@@ -21,20 +21,25 @@ type application struct {
 }
 
 func main() {
+	// init config http Server
 	addr := flag.String("addr", ":4000", "Сетевой адресс HTTP")
-	dsn := flag.String("dsn", "web:zx55c2vbnm1,./my@/snippetbox?parseTime=true", "Mysql info")
+
+	// init config storage
+	dsn := flag.String("dsn", "", "Mysql info")
 	flag.Parse()
 
+	// init logger
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
+	// init storage
 	db, err := openDB(*dsn)
 	if err != nil {
 		errorLog.Fatal(err)
 	}
-
 	defer db.Close()
 
+	// init template
 	templateCache, err := newTemplateCache("./ui/html/")
 	if err != nil {
 		errorLog.Fatal(err)

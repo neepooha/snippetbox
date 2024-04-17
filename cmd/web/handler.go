@@ -19,7 +19,7 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		app.serverError(w, err)
 		return
 	}
-	app.render(w, r, "home.page.html", &templateData{Snippets: s})
+	app.render(w, "home.page.html", &templateData{Snippets: s})
 }
 
 func (app *application) showSnippet(w http.ResponseWriter, r *http.Request) {
@@ -38,7 +38,7 @@ func (app *application) showSnippet(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-	app.render(w, r, "show.page.html", &templateData{Snippet: s})
+	app.render(w, "show.page.html", &templateData{Snippet: s})
 }
 
 // TODO create snippet
@@ -49,8 +49,8 @@ func (app *application) createSnippet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	title := "История про улитку"
-	content := "Улитка выползла из раковины,\nвытянула рожки,\nи опять подобрала их."
+	title := "Вино"
+	content := "Вино с возрастом становится лучше. Я становлюсь лучше с вином..."
 	expires := "7"
 
 	id, err := app.snippets.Insert(title, content, expires)
@@ -60,3 +60,5 @@ func (app *application) createSnippet(w http.ResponseWriter, r *http.Request) {
 	}
 	http.Redirect(w, r, fmt.Sprintf("/snippet?id=%d", id), http.StatusSeeOther)
 }
+
+// TODO delete snippet
